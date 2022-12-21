@@ -8,6 +8,7 @@ import java.util.List;
 
 @RequestMapping(path = "api/v1/customer")
 @RestController
+@Deprecated
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -18,7 +19,7 @@ public class CustomerController {
 
     @GetMapping(value = "all")
     List<Customer> getCustomer() {
-        return customerService.getCustomer();
+        return customerService.getCustomers();
     }
 
     @PostMapping
