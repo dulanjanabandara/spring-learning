@@ -3,17 +3,16 @@ package com.example.demo.customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @RequestMapping(path = "api/v2/customers")
 @RestController
-public class CustomerControllerV2 {
+@Deprecated
+public class CustomerControllerV2Archived {
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerControllerV2(CustomerService customerService) {
+    public CustomerControllerV2Archived(CustomerService customerService) {
         this.customerService = customerService;
     }
 
@@ -27,7 +26,11 @@ public class CustomerControllerV2 {
 
     @GetMapping(path = "{customerId}")
     Customer getCustomer(@PathVariable("customerId") Long id) {
-        return customerService.getCustomer(id);
+        return customerService.getCustomers()
+                .stream()
+                .filter(customer -> customer.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("customer not found"));
     }
 
     @PostMapping
